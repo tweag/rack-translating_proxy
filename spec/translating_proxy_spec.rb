@@ -15,27 +15,27 @@ end
 describe ExampleTranslatingProxy do
   let(:app) { described_class.new }
 
-  describe "#rewrite_env" do
+  describe '#rewrite_env' do
     subject { app.rewrite_env(Hash.new { '' }.merge(env)) }
     let(:env) { {} }
 
-    describe "rewriting the uri" do
+    describe 'rewriting the uri' do
       its(['HTTP_HOST'])       { is_expected.to eq 'target-host.url' }
       its(['SERVER_PORT'])     { is_expected.to eq 443 }
       its(['rack.url_scheme']) { is_expected.to eq 'https' }
     end
 
-    describe "rewriting the path" do
+    describe 'rewriting the path' do
       let(:env) { { 'REQUEST_URI' => '/path/with/a+word' } }
       its(['REQUEST_URI']) { is_expected.to eq '/path/with/another+word' }
     end
 
-    describe "rewriting the query string" do
+    describe 'rewriting the query string' do
       let(:env) { { 'QUERY_STRING' => 'a+word&something-else' } }
       its(['QUERY_STRING']) { is_expected.to eq 'another+word&something-else' }
     end
 
-    describe "rewriting the body" do
+    describe 'rewriting the body' do
       context 'when it is a string' do
         let(:env) { { 'rack.input' => 'my+string+with+a+word' } }
         specify do
@@ -56,7 +56,7 @@ describe ExampleTranslatingProxy do
     end
   end
 
-  describe "#rewrite_response" do
+  describe '#rewrite_response' do
     subject { app.rewrite_response(triplet) }
 
     let(:triplet) { [given_status, given_headers, given_body] }
@@ -69,9 +69,9 @@ describe ExampleTranslatingProxy do
           https://target.url:8765/path
         ),
 
-        'status'            => ["302 Found"],
+        'status'            => ['302 Found'],
         'connection'        => ['close'],
-        'transfer-encoding' => ["chunked"]
+        'transfer-encoding' => ['chunked']
       }
     end
 

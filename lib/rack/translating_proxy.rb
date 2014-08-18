@@ -3,10 +3,10 @@ require 'rack/proxy'
 module Rack
   class TranslatingProxy < Rack::Proxy
     def rewrite_env(env)
-      rewrite_request_url          env
-      rewrite_request_body         env
+      rewrite_request_url env
+      rewrite_request_body env
       rewrite_request_query_string env
-      rewrite_request_path         env
+      rewrite_request_path env
 
       env
     end
@@ -25,7 +25,9 @@ module Rack
     end
 
     def rewrite_request_string(str)
-      rewrite_string(str, request_mapping, URI.method(:encode_www_form_component))
+      rewrite_string(
+        str, request_mapping, URI.method(:encode_www_form_component)
+      )
     end
 
     def rewrite_request_query_string(env)
@@ -64,16 +66,16 @@ module Rack
     end
 
     def rewrite_response_location(headers)
-      if headers['location']
-        headers['location'] = headers['location'].map do |location|
-          rewrite_string(location, _response_mapping)
-        end
+      return unless headers['location']
+
+      headers['location'] = headers['location'].map do |location|
+        rewrite_string(location, _response_mapping)
       end
     end
 
     def remove_interfering_response_headers(headers)
       headers.reject! do |key, _|
-        %w[status connection transfer-encoding].include?(key)
+        %w(        status connection transfer-encoding        ).include?(key)
       end
     end
 
