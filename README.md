@@ -5,6 +5,9 @@
 A Proxy that `gsub`s the contents of the requests and responses in order to make a mostly transparent proxy.
 Its purpose is to aid in development and testing of integration with external services, especially when the browser has to interact with those services directly.
 
+Often, these services will only redirect to certain, predefined URLs, but your test suite spins up its services dynamically.
+This includes services like OAuth/OpenId and payment gateways (e.g. Stripe, Cybersource).
+
 ## Usage
 
 TODO: Write usage instructions here
