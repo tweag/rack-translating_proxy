@@ -35,7 +35,8 @@ module Rack
     end
 
     def rewrite_request_path(env)
-      env['REQUEST_URI']  = rewrite_request_string(env['REQUEST_URI'])
+      env['PATH_INFO']   = rewrite_request_string(env['PATH_INFO'])
+      env['REQUEST_URI'] = rewrite_request_string(env['REQUEST_URI'])
     end
 
     def rewrite_string(string, mapping, transform = proc { |x| x })
@@ -75,7 +76,7 @@ module Rack
 
     def remove_interfering_response_headers(headers)
       headers.reject! do |key, _|
-        %w(        status connection transfer-encoding        ).include?(key)
+        %w(status connection transfer-encoding).include?(key)
       end
     end
 

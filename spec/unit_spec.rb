@@ -25,7 +25,12 @@ describe ExampleTranslatingProxy do
       its(['rack.url_scheme']) { is_expected.to eq 'https' }
     end
 
-    describe 'rewriting the path' do
+    describe 'rewriting the PATH_INFO' do
+      let(:env) { { 'PATH_INFO' => '/path/with/a+word' } }
+      its(['PATH_INFO']) { is_expected.to eq '/path/with/another+word' }
+    end
+
+    describe 'rewriting the REQUEST_URI' do
       let(:env) { { 'REQUEST_URI' => '/path/with/a+word' } }
       its(['REQUEST_URI']) { is_expected.to eq '/path/with/another+word' }
     end

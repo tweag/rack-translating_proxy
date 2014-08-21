@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bundle exec shotgun -I ./spec -p 5555 spec/example_translating_proxy.ru
