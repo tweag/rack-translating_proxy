@@ -52,5 +52,6 @@ post '/page' do
 end
 
 get '/page-with-stuff' do
-  '<a href="http://localhost/rewritten-path?rewrote+with+SPACE">'
+  '<a href="http://localhost/rewritten-path?rewrote+with+SPACE">' \
+  'rewrote with SPACE'
 end

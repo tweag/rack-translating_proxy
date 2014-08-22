@@ -66,7 +66,7 @@ describe ExampleTranslatingProxy do
 
     let(:triplet) { [given_status, given_headers, given_body] }
     let(:given_status)  { double }
-    let(:given_body)    { double }
+    let(:given_body)    { '' }
     let(:given_headers) do
       {
         'location' => %w(
@@ -82,14 +82,25 @@ describe ExampleTranslatingProxy do
 
     let(:rewritten_status)  { subject[0] }
     let(:rewritten_headers) { subject[1] }
-    let(:rewritten_body)    { subject[2] }
+    let(:rewritten_body)    { subject[2].join }
 
     specify { expect(rewritten_body).to eq given_body }
     specify { expect(rewritten_status).to eq given_status }
 
     specify do
-      expect(rewritten_headers).to eq \
-        'location' => %w(http://proxy.url:1234/path http://proxy.url:5678/path)
+      expect(rewritten_headers['location']).to eq \
+        %w(http://proxy.url:1234/path http://proxy.url:5678/path)
+    end
+
+    context 'when the body needs to be rewritten' do
+      let(:given_body) { 'another word' }
+      specify { expect(rewritten_body).to eq 'a word' }
+    end
+
+    context 'when the body needs to be rewritten with URL encoded stuff' do
+      let(:given_body) { 'another+word' }
+      specify { expect(rewritten_body).to eq 'a+word' }
+      specify { expect(rewritten_headers['Content-Length']).to eq '6' }
     end
   end
 end

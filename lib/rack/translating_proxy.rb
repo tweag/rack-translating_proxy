@@ -63,7 +63,9 @@ module Rack
       status, headers, body = triplet
       rewrite_response_location headers
       remove_interfering_response_headers headers
-      [status, headers, body]
+      body = rewrite_response_body(body)
+      headers['Content-Length'] = body.size.to_s
+      [status, headers, [body]]
     end
 
     def rewrite_response_location(headers)
@@ -78,6 +80,13 @@ module Rack
       headers.reject! do |key, _|
         %w(status connection transfer-encoding).include?(key)
       end
+    end
+
+    def rewrite_response_body(body)
+      str = body.to_s
+      str = rewrite_string(str, _response_mapping)
+      str = rewrite_string(str, _response_mapping,
+                     URI.method(:encode_www_form_component))
     end
 
     def request_mapping

@@ -80,10 +80,11 @@ describe 'proxying' do
   end
 
   context 'on a response' do
-    xspecify 'rewriting links in a page' do
+    specify 'rewriting links in a page' do
       get '/page-with-stuff'
       expect(last_response.body).to eq \
-        '<a href="http://localhost:5555/rewritable-path?rewrite+with+space">'
+        '<a href="http://localhost:5555/rewritable-path?rewrite+with+space">' \
+        'rewrite with space'
     end
   end
 end
