@@ -11,7 +11,7 @@ get '/' do
 end
 
 get '/a-path' do
-  "a GET request to /"
+  'a GET request to /'
 end
 
 post '/' do
@@ -30,7 +30,6 @@ patch '/' do
   params.inspect
 end
 
-
 ### a redirect scenario
 get '/a-redirect' do
   redirect '/redirected-page'
@@ -40,9 +39,8 @@ get '/redirected-page' do
   'the redirected page'
 end
 
-
 get '/rewritten-path' do
- 'You are at /rewritten-path'
+  'You are at /rewritten-path'
 end
 
 get '/page' do

@@ -7,12 +7,12 @@ describe 'proxying' do
 
   let(:http) do
     Faraday.new(url: proxy_host) do |faraday|
-      faraday.request  :url_encoded
+      faraday.request :url_encoded
       faraday.adapter Faraday.default_adapter
     end
   end
 
-  %w[get post put patch delete].each do |http_method|
+  %w(  get post put patch delete  ).each do |http_method|
     define_method(http_method) do |*args|
       @last_response = http.public_send(http_method, *args)
     end

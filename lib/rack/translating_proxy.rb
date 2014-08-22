@@ -83,9 +83,8 @@ module Rack
     end
 
     def rewrite_response_body(body)
-      str = body.to_s
-      str = rewrite_string(str, _response_mapping)
-      str = rewrite_string(str, _response_mapping,
+      str = rewrite_string(body.to_s, _response_mapping)
+      rewrite_string(str, _response_mapping,
                      URI.method(:encode_www_form_component))
     end
 
