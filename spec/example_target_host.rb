@@ -1,4 +1,6 @@
 require 'sinatra'
+require 'base64'
+require 'json'
 
 get '/a-GET-request' do
   'here is my GET request'
@@ -54,4 +56,12 @@ end
 get '/page-with-stuff' do
   '<a href="http://localhost/rewritten-path?rewrote+with+SPACE">' \
   'rewrote with SPACE'
+end
+
+get '/reflect' do
+  Base64.encode64(params.to_json)
+end
+
+post '/reflect' do
+  Base64.encode64(params.to_json)
 end

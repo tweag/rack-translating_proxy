@@ -1,5 +1,6 @@
 require 'faraday'
 require 'json'
+require 'base64'
 
 describe 'proxying' do
   let(:proxy_host) { 'http://localhost:5555' }
@@ -63,19 +64,22 @@ describe 'proxying' do
   end
 
   context 'on a request' do
+    # encoded as Base64 so it's not de-translated on the way back
+    let(:received_params) { JSON.parse(Base64.decode64(last_response.body)) }
+
     specify 'rewriting the path' do
       get '/rewritable-path'
-      expect(last_response.body).to include 'You are at /rewritten-path'
+      expect(last_response).to be_success
     end
 
     specify 'rewriting the query string' do
-      get '/page?rewrite+with+space=something'
-      expect(last_response.body).to include({'rewrote with SPACE' => 'something'}.inspect)
+      get '/reflect?rewrite+with+space=something'
+      expect(received_params).to include 'rewrote with SPACE' => 'something'
     end
 
     specify 'rewriting body contents' do
-      post '/page', 'rewrite with space' => 'something'
-      expect(last_response.body).to include({'rewrote with SPACE' => 'something'}.inspect)
+      post '/reflect', 'rewrite with space' => 'something'
+      expect(received_params).to include 'rewrote with SPACE' => 'something'
     end
   end
 
