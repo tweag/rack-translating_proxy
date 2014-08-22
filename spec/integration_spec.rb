@@ -8,8 +8,7 @@ describe 'proxying' do
   let(:http) do
     Faraday.new(url: proxy_host) do |faraday|
       faraday.request  :url_encoded
-      # faraday.response :logger
-      faraday.adapter Faraday.default_adapter  # make requests with Net::HTTP
+      faraday.adapter Faraday.default_adapter
     end
   end
 
@@ -64,8 +63,10 @@ describe 'proxying' do
   end
 
   context 'on a request' do
-    # encoded as Base64 so it's not de-translated on the way back
-    let(:received_params) { JSON.parse(Base64.decode64(last_response.body)) }
+    let(:reflected_params) do
+      # encoded as Base64 so it's not de-translated on the way back
+      JSON.parse(Base64.decode64(last_response.body))
+    end
 
     specify 'rewriting the path' do
       get '/rewritable-path'
@@ -74,12 +75,12 @@ describe 'proxying' do
 
     specify 'rewriting the query string' do
       get '/reflect?rewrite+with+space=something'
-      expect(received_params).to include 'rewrote with SPACE' => 'something'
+      expect(reflected_params).to include 'rewrote with SPACE' => 'something'
     end
 
     specify 'rewriting body contents' do
       post '/reflect', 'rewrite with space' => 'something'
-      expect(received_params).to include 'rewrote with SPACE' => 'something'
+      expect(reflected_params).to include 'rewrote with SPACE' => 'something'
     end
   end
 
