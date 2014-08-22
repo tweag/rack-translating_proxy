@@ -5,3 +5,8 @@ rvm:
 matrix:
   allow_failures:
     - rvm: ruby-head
+
+before_script:
+  - "./spec/script/example_target_host &"
+  - "./spec/script/example_translating_proxy &"
+  - "sleep 5"
