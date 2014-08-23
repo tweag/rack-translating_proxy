@@ -91,16 +91,6 @@ end
 Assuming you run the proxy on `localhost:5555`, you can configure your OAuth-enabled app to point to `http://localhost:5555`.
 Your test suite and your browser can hit the real OAuth server.
 
-### Running your proxy
-
-#### With `rackup`
-
-TODO
-
-#### Mounted at a Rails route
-
-TODO
-
 ## Installation
 
 Add this line to your application's Gemfile:
