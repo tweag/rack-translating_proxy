@@ -115,6 +115,22 @@ Or install it yourself as:
 
     $ gem install rack-translating_proxy
 
+## Development
+
+Make sure you are running the test servers:
+
+    ./spec/script/example_target_host
+    ./spec/script/example_translating_proxy
+
+Then, run
+
+    rake
+
+The test servers will update automatically because they are using [shotgun](https://github.com/rtomayko/shotgun).
+If you don't need them to reload on every request, run one or both of them with the `fast` parameter, like
+
+    ./spec/script/example_target_host fast
+
 ## Contributing
 
 1. Fork it ( http://github.com/promptworks/rack-translating_proxy/fork )
