@@ -2,11 +2,14 @@ rvm:
   - 2.0.0
   - 2.1
   - ruby-head
+
 matrix:
   allow_failures:
     - rvm: ruby-head
 
 before_script:
-  - "./spec/script/example_target_host &"
-  - "./spec/script/example_translating_proxy &"
+  - "./spec/script/example_target_host fast &"
+  - "./spec/script/example_translating_proxy fast &"
   - "sleep 5"
+
+bundler_args: --without local_development

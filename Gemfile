@@ -5,7 +5,9 @@ gemspec
 gem 'rspec'
 gem 'rspec-its'
 gem 'sinatra'
-gem 'shotgun'
 gem 'faraday'
 
-gem 'pry'
+group :local_development do
+  gem 'pry'
+  gem 'shotgun'
+end
