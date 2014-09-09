@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = 'rack-translating_proxy'
-  spec.version       = '0.1.0'
+  spec.version       = '0.1.1'
   spec.authors       = ['Mike Nicholaides']
   spec.email         = ['mike.nicholaides@gmail.com']
   spec.summary       = 'Proxy that translates strings'
